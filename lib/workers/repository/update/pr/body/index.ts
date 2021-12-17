@@ -69,11 +69,19 @@ export async function getPrBody(
   prBodyConfig: PrBodyConfig
 ): Promise<string> {
   massageUpdateMetadata(branchConfig);
+
+  let changelogs = '';
+
+  // due to the small limit of 4000 chars in Azure PRs we write the changelogs as comment
+  if (branchConfig.platform !== 'azure') {
+    changelogs = getChangelogs(branchConfig);
+  }
+
   const content = {
     header: getPrHeader(branchConfig),
     table: getPrUpdatesTable(branchConfig),
     notes: getPrNotes(branchConfig) + getPrExtraNotes(branchConfig),
-    changelogs: getChangelogs(branchConfig),
+    changelogs: changelogs,
     configDescription: await getPrConfigDescription(branchConfig),
     controls: await getControls(branchConfig),
     footer: getPrFooter(branchConfig),
@@ -97,4 +105,11 @@ export async function getPrBody(
     }
   }
   return prBody;
+}
+
+export function getFullChangelogs(config: BranchConfig): string {
+  let changelogs = getChangelogs(config);
+  changelogs = changelogs.trim();
+  changelogs = changelogs.replace(regEx(/\n\n\n+/g), '\n\n');
+  return changelogs;
 }
