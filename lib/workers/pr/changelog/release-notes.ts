@@ -7,6 +7,7 @@ import * as memCache from '../../../util/cache/memory';
 import * as packageCache from '../../../util/cache/package';
 import { linkify } from '../../../util/markdown';
 import { newlineRegex, regEx } from '../../../util/regex';
+import * as azure from './azure';
 import * as github from './github';
 import * as gitlab from './gitlab';
 import type {
@@ -30,7 +31,8 @@ export async function getReleaseList(
         return await gitlab.getReleaseList(apiBaseUrl, repository);
       case 'github':
         return await github.getReleaseList(apiBaseUrl, repository);
-
+      case 'azure':
+        return await azure.getReleaseList(apiBaseUrl, repository);
       default:
         logger.warn({ apiBaseUrl, repository, type }, 'Invalid project type');
         return [];
@@ -187,7 +189,12 @@ export async function getReleaseNotesMdFileInner(
           apiBaseUrl,
           sourceDirectory
         );
-
+      case 'azure':
+        return await azure.getReleaseNotesMd(
+          repository,
+          apiBaseUrl,
+          sourceDirectory
+        );
       default:
         logger.warn({ apiBaseUrl, repository, type }, 'Invalid project type');
         return null;
@@ -264,7 +271,14 @@ export async function getReleaseNotesMd(
             if (word.includes(version) && !isUrl(word)) {
               logger.trace({ body }, 'Found release notes for v' + version);
               // TODO: fix url
-              const notesSourceUrl = `${baseUrl}${repository}/blob/HEAD/${changelogFile}`;
+              let notesSourceUrl: string;
+              if (baseUrl.match('.*(dev.azure.com|visualstudio.com).*')) {
+                // https:/digitecgalaxus.visualstudio.com/devinite/_git/Chabis.Messaging?path=/CHANGELOG.md
+                const repoInfo = repository.split('/');
+                notesSourceUrl = `${baseUrl}${repoInfo.shift()}/_git/${repoInfo.shift()}?path=/${changelogFile}`;
+              } else {
+                notesSourceUrl = `${baseUrl}${repository}/blob/HEAD/${changelogFile}`;
+              }
               const url =
                 notesSourceUrl +
                 '#' +

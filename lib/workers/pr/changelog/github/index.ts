@@ -88,7 +88,8 @@ export async function getReleaseNotesMd(
     logger.trace('no changelog file found');
     return null;
   }
-  const { path: changelogFile, sha } = files.shift();
+
+  const { path: changelogFile, sha: sha } = files.shift();
   /* istanbul ignore if */
   if (files.length !== 0) {
     logger.debug(

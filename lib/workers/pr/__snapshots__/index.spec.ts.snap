@@ -55,6 +55,7 @@ Array [
 exports[`workers/pr/index ensurePr should add note about Pin 1`] = `
 Array [
   Object {
+    "changelog": "---\\n\\n### Release Notes\\n\\n<details>\\n<summary>renovateapp/dummy</summary>\\n\\n### [\`v1.1.0\`](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n[Compare Source](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n</details>",
     "draftPR": false,
     "labels": Array [],
     "platformOptions": Object {
@@ -88,6 +89,7 @@ Array [
 exports[`workers/pr/index ensurePr should create PR if success 1`] = `
 Array [
   Object {
+    "changelog": "---\\n\\n### Release Notes\\n\\n<details>\\n<summary>renovateapp/dummy</summary>\\n\\n### [\`v1.1.0\`](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n[Compare Source](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n</details>",
     "draftPR": false,
     "labels": Array [],
     "platformOptions": Object {
@@ -108,6 +110,7 @@ Array [
 exports[`workers/pr/index ensurePr should create PR if success for gitlab deps 1`] = `
 Array [
   Object {
+    "changelog": "",
     "draftPR": false,
     "labels": Array [],
     "platformOptions": Object {
@@ -128,6 +131,7 @@ Array [
 exports[`workers/pr/index ensurePr should create group PR 1`] = `
 Array [
   Object {
+    "changelog": "---\\n\\n### Release Notes\\n\\n<details>\\n<summary>renovateapp/dummy (dummy)</summary>\\n\\n### [\`v1.1.0\`](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n[Compare Source](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n</details>\\n\\n<details>\\n<summary>renovateapp/dummy (b)</summary>\\n\\n### [\`v1.1.0\`](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n[Compare Source](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n</details>\\n\\n<details>\\n<summary>renovateapp/dummymonorepo</summary>\\n\\n### [\`v1.1.0\`](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n[Compare Source](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n</details>",
     "draftPR": false,
     "labels": Array [],
     "platformOptions": Object {
@@ -148,6 +152,7 @@ Array [
 exports[`workers/pr/index ensurePr should create privateRepo PR if success 1`] = `
 Array [
   Object {
+    "changelog": "---\\n\\n### Release Notes\\n\\n<details>\\n<summary>someproject</summary>\\n\\n### [\`v1.1.0\`](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n[Compare Source](https://github.com/renovateapp/dummy/compare/v1.0.0...v1.1.0)\\n\\n</details>",
     "draftPR": false,
     "labels": Array [],
     "platformOptions": Object {
