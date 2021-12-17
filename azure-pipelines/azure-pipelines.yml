@@ -9,5 +9,16 @@ steps:
     inputs:
       containerRegistry: 'anymodconrst001dg'
       repository: 'renovate'
-      command: 'buildAndPush'
+      command: 'build'
       Dockerfile: 'Dockerfile'
+
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'anymodconrst001dg'
+      repository: 'renovate'
+      command: 'push'
+      Dockerfile: 'Dockerfile'
+      tags: |
+        $(Build.BuildId)
+        latest
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
