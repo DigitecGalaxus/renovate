@@ -136,10 +136,7 @@ export async function getReleases(
       if (releaseTimestamp) {
         release.releaseTimestamp = releaseTimestamp;
       }
-      if (
-        semver.valid(version)
-        //&& !semver.prerelease(version)
-      ) {
+      if (semver.valid(version) && !semver.prerelease(version)) {
         if (!latestStable || semver.gt(version, latestStable)) {
           latestStable = removeBuildMeta(version);
           homepage = projectUrl || homepage;
