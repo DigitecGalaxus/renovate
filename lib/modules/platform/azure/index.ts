@@ -435,6 +435,7 @@ export async function createPr({
   labels,
   draftPR = false,
   platformOptions,
+  changelog,
 }: CreatePRConfig): Promise<Pr> {
   const sourceRefName = getNewBranchName(sourceBranch);
   const targetRefName = getNewBranchName(targetBranch);
@@ -500,6 +501,9 @@ export async function createPr({
       )
     )
   );
+
+  await ensureChangelogComment(pr.pullRequestId!, changelog!);
+
   return getRenovatePRFormat(pr);
 }
 
@@ -508,6 +512,7 @@ export async function updatePr({
   prTitle: title,
   prBody: body,
   state,
+  changelog,
   platformOptions,
 }: UpdatePrConfig): Promise<void> {
   logger.debug(`updatePr(${prNo}, ${title}, body)`);
@@ -547,6 +552,23 @@ export async function updatePr({
   }
 
   await azureApiGit.updatePullRequest(objToUpdate, config.repoId, prNo);
+  await ensureChangelogComment(prNo, changelog!);
+}
+
+function truncateContent(
+  str: string,
+  n: number,
+  useWordBoundary: boolean
+): string {
+  if (str.length <= n) {
+    return str;
+  }
+  const subString = str.substring(0, n - 3);
+  return (
+    (useWordBoundary
+      ? subString.substring(0, subString.lastIndexOf(' '))
+      : subString) + '...'
+  );
 }
 
 export async function ensureComment({
@@ -556,7 +578,7 @@ export async function ensureComment({
 }: EnsureCommentConfig): Promise<boolean> {
   logger.debug(`ensureComment(${number}, ${topic!}, content)`);
   const header = topic ? `### ${topic}\n\n` : '';
-  const body = `${header}${sanitize(content)}`;
+  const body = truncateContent(`${header}${sanitize(content)}`, 150000, true);
   const azureApiGit = await azureApi.gitApi();
 
   const threads = await azureApiGit.getThreads(config.repoId, number);
@@ -930,4 +952,19 @@ export async function deleteLabel(
   logger.debug(`Deleting label ${label} from #${prNumber}`);
   const azureApiGit = await azureApi.gitApi();
   await azureApiGit.deletePullRequestLabels(config.repoId, prNumber, label);
+}
+
+export function getVulnerabilityAlerts(): Promise<VulnerabilityAlert[]> {
+  return Promise.resolve([]);
+}
+
+async function ensureChangelogComment(
+  pullRequestId: number,
+  content: string
+): Promise<boolean> {
+  return await ensureComment({
+    number: pullRequestId,
+    topic: 'Full Release Notes',
+    content: content,
+  });
 }
