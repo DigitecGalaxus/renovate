@@ -90,6 +90,7 @@ export interface CreatePRConfig {
   labels?: string[] | null;
   platformOptions?: PlatformPrOptions;
   draftPR?: boolean;
+  changelog?: string;
 }
 export interface UpdatePrConfig {
   number: number;
@@ -97,6 +98,7 @@ export interface UpdatePrConfig {
   prTitle: string;
   prBody?: string;
   state?: PrState.Open | PrState.Closed;
+  changelog?: string;
 }
 export interface EnsureIssueConfig {
   title: string;

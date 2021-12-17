@@ -24,7 +24,7 @@ export interface ChangeLogRelease {
 
 export interface ChangeLogProject {
   depName?: string;
-  type: 'github' | 'gitlab';
+  type: 'github' | 'gitlab' | 'azure';
   apiBaseUrl?: string;
   baseUrl: string;
   repository: string;
@@ -36,6 +36,7 @@ export interface ChangeLogProject {
 export enum ChangeLogError {
   MissingGithubToken = 1,
   MissingGitlabToken = 2,
+  MissingAzureToken = 3,
 }
 
 export interface ChangeLogResult {

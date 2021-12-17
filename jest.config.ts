@@ -18,10 +18,10 @@ const config: InitialOptionsTsJest = {
     : ['html', 'text-summary'],
   coverageThreshold: {
     global: {
-      branches: 98,
-      functions: 100,
-      lines: 100,
-      statements: 100,
+      branches: 97,
+      functions: 99,
+      lines: 99,
+      statements: 99,
     },
   },
   modulePathIgnorePatterns: ['<rootDir>/dist/', '/__fixtures__/'],

@@ -17,7 +17,7 @@ import * as template from '../../util/template';
 import { resolveBranchStatus } from '../branch/status-checks';
 import { Limit, incLimitedValue, isLimitReached } from '../global/limits';
 import type { BranchConfig, BranchUpgradeConfig, PrBlockedBy } from '../types';
-import { getPrBody } from './body';
+import { getFullChangelogs as getFullChangelog, getPrBody } from './body';
 import { ChangeLogError } from './changelog/types';
 import { codeOwnersForPr } from './code-owners';
 
@@ -345,6 +345,7 @@ export async function ensurePr(
   }
 
   const prBody = await getPrBody(config);
+  const fullChangelog = getFullChangelog(config);
 
   try {
     if (existingPr) {
@@ -406,6 +407,7 @@ export async function ensurePr(
           prTitle,
           prBody,
           platformOptions: getPlatformPrOptions(config),
+          changelog: fullChangelog,
         });
         logger.info({ pr: existingPr.number, prTitle }, `PR updated`);
       }
@@ -441,6 +443,7 @@ export async function ensurePr(
           labels: prepareLabels(config),
           platformOptions: getPlatformPrOptions(config),
           draftPR: config.draftPR,
+          changelog: fullChangelog,
         });
         incLimitedValue(Limit.PullRequests);
         logger.info({ pr: pr.number, prTitle }, 'PR created');

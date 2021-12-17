@@ -137,8 +137,10 @@ export async function getReleases(
         release.releaseTimestamp = releaseTimestamp;
       }
       if (semver.valid(version) && !semver.prerelease(version)) {
-        latestStable = removeBuildMeta(version);
-        homepage = projectUrl || homepage;
+        if (!latestStable || semver.gt(version, latestStable)) {
+          latestStable = removeBuildMeta(version);
+          homepage = projectUrl || homepage;
+        }
       }
       if (listed === false) {
         release.isDeprecated = true;
