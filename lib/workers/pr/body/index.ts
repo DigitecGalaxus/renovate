@@ -59,11 +59,19 @@ function massageUpdateMetadata(config: BranchConfig): void {
 
 export async function getPrBody(config: BranchConfig): Promise<string> {
   massageUpdateMetadata(config);
+
+  let changelogs = '';
+
+  // due to the small limit of 4000 chars in Azure PRs we write the changelogs as comment
+  if (config.platform !== 'azure') {
+    changelogs = getChangelogs(config);
+  }
+
   const content = {
     header: getPrHeader(config),
     table: getPrUpdatesTable(config),
     notes: getPrNotes(config) + getPrExtraNotes(config),
-    changelogs: getChangelogs(config),
+    changelogs: changelogs,
     configDescription: await getPrConfigDescription(config),
     controls: await getControls(config),
     footer: getPrFooter(config),
@@ -74,4 +82,11 @@ export async function getPrBody(config: BranchConfig): Promise<string> {
   prBody = prBody.replace(regEx(/\n\n\n+/g), '\n\n');
   prBody = platform.massageMarkdown(prBody);
   return prBody;
+}
+
+export function getFullChangelogs(config: BranchConfig): string {
+  let changelogs = getChangelogs(config);
+  changelogs = changelogs.trim();
+  changelogs = changelogs.replace(regEx(/\n\n\n+/g), '\n\n');
+  return changelogs;
 }

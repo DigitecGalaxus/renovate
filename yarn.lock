@@ -4234,7 +4234,7 @@ chalk@^3.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-changelog-filename-regex@2.0.1:
+changelog-filename-regex@2.0.1, changelog-filename-regex@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/changelog-filename-regex/-/changelog-filename-regex-2.0.1.tgz#88944bd89a076fc572c0ab6b4a4f2bc2572ac02d"
   integrity sha512-DZdyJpCprw8V3jp8V2x13nAA05Yy/IN+Prowj+0mrAHNENYkuMtNI4u5m449TTjPqShIslQSEuXee+Jtkn4m+g==
@@ -6263,6 +6263,13 @@ is-callable@^1.1.4, is-callable@^1.1.5, is-callable@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.2.4.tgz#47301d58dd0259407865547853df6d61fe471945"
   integrity sha512-nsuwtxZfMX67Oryl9LCQ+upnC0Z0BgpwntpS89m1H/TLF0zNfzfLMV/9Wa/6MZsj0acpEjAO0KF1xT6ZdLl95w==
+
+is-changelog-path@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/is-changelog-path/-/is-changelog-path-2.0.0.tgz#50c39ed8467cd049be9e7cb47b4e2b66424ade12"
+  integrity sha512-DKYH9BiC/HToa3RH5OFqc/4phQU1GEC2+KlRgqmJpSt0ASRD5mzxqW7fkUXijUtlC5RsksYLcCLHD8RhHvkj5w==
+  dependencies:
+    changelog-filename-regex "^2.0.1"
 
 is-ci@^2.0.0:
   version "2.0.0"

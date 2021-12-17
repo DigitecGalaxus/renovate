@@ -25,3 +25,6 @@ test/datasource/nuget/_fixtures/obj
 
 # testing
 /docker-compose.yml
+
+# vs code
+workspace.code-workspace

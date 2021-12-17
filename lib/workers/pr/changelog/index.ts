@@ -2,6 +2,7 @@ import { logger } from '../../../logger';
 import * as allVersioning from '../../../versioning';
 import type { BranchUpgradeConfig } from '../../types';
 import { getInRangeReleases } from './releases';
+import * as sourceAzure from './source-azure';
 import * as sourceGithub from './source-github';
 import * as sourceGitlab from './source-gitlab';
 import type { ChangeLogResult } from './types';
@@ -33,6 +34,12 @@ export async function getChangeLogJSON(
         new URL(args.sourceUrl).hostname === new URL(args.endpoint).hostname)
     ) {
       res = await sourceGitlab.getChangeLogJSON({ ...args, releases });
+    } else if (
+      args.sourceUrl?.includes('visualstudio.com') ||
+      (args.platform === 'azure' &&
+        new URL(args.sourceUrl).hostname === new URL(args.endpoint).hostname)
+    ) {
+      res = await sourceAzure.getChangeLogJSON({ ...args, releases });
     } else {
       res = await sourceGithub.getChangeLogJSON({ ...args, releases });
     }
