@@ -1,12 +1,12 @@
-import * as azureApi from '../../../../platform/azure/azure-got-wrapper';
-import isChangelogPath from 'is-changelog-path';
-import { logger } from '../../../../logger';
-import { ensureTrailingSlash } from '../../../../util/url';
-import type { ChangeLogFile, ChangeLogNotes } from '../types';
 import {
   GitObjectType,
   GitTreeEntryRef,
 } from 'azure-devops-node-api/interfaces/GitInterfaces';
+import isChangelogPath from 'is-changelog-path';
+import { logger } from '../../../../logger';
+import * as azureApi from '../../../../platform/azure/azure-got-wrapper';
+import { ensureTrailingSlash } from '../../../../util/url';
+import type { ChangeLogFile, ChangeLogNotes } from '../types';
 
 function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
   const chunks = [];
@@ -24,8 +24,8 @@ export async function getReleaseNotesMd(
 ): Promise<ChangeLogFile> | null {
   logger.trace('azure.getReleaseNotesMd()');
 
-  let gitApi = await azureApi.gitApi();
-  var repoInfo = repository.split('/');
+  const gitApi = await azureApi.gitApi();
+  const repoInfo = repository.split('/');
   const repoName = repoInfo.pop();
   const projectName = repoInfo.pop();
 
@@ -71,17 +71,25 @@ export async function getReleaseNotesMd(
     );
   }
 
-  let contentRes = await gitApi.getBlobContent(repoName, objectId, projectName);
+  const contentRes = await gitApi.getBlobContent(
+    repoName,
+    objectId,
+    projectName
+  );
   const changelogMd = await streamToString(contentRes);
 
   return { changelogFile, changelogMd };
 }
 
-export async function getReleaseList(
+export function getReleaseList(
   apiBaseUrl: string,
   repository: string
 ): Promise<ChangeLogNotes[]> {
   logger.trace('github.getReleaseList()');
   logger.debug('Azure Devops does not have releases');
-  return [];
+
+  const val: ChangeLogNotes[] = [];
+  return new Promise((resolve) => {
+    resolve(val);
+  });
 }

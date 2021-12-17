@@ -7,9 +7,9 @@ import * as memCache from '../../../util/cache/memory';
 import * as packageCache from '../../../util/cache/package';
 import { linkify } from '../../../util/markdown';
 import { regEx } from '../../../util/regex';
+import * as azure from './azure';
 import * as github from './github';
 import * as gitlab from './gitlab';
-import * as azure from './azure';
 import type {
   ChangeLogFile,
   ChangeLogNotes,
@@ -274,7 +274,7 @@ export async function getReleaseNotesMd(
               let notesSourceUrl: string;
               if (baseUrl.match('.*(dev.azure.com|visualstudio.com).*')) {
                 // https:/digitecgalaxus.visualstudio.com/devinite/_git/Chabis.Messaging?path=/CHANGELOG.md
-                let repoInfo = repository.split('/');
+                const repoInfo = repository.split('/');
                 notesSourceUrl = `${baseUrl}${repoInfo.shift()}/_git/${repoInfo.shift()}?path=/${changelogFile}`;
               } else {
                 notesSourceUrl = `${baseUrl}${repository}/blob/HEAD/${changelogFile}`;
