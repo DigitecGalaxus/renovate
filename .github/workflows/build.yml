@@ -3,8 +3,7 @@ name: build
 on:
   push:
     branches:
-      - main
-      - v25
+      - dg-main
 
   pull_request:
 
