@@ -20,7 +20,8 @@ function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
 export async function getReleaseNotesMd(
   repository: string,
   apiBaseUrl: string,
-  sourceDirectory: string
+  sourceDirectory: string,
+  tagPrefix: string
 ): Promise<ChangeLogFile> | null {
   logger.trace('azure.getReleaseNotesMd()');
 
@@ -57,7 +58,13 @@ export async function getReleaseNotesMd(
       );
   }
   if (!files.length) {
-    files = allFiles.filter((f) => isChangelogPath(f.relativePath));
+    if (tagPrefix) {
+      files = allFiles.filter(
+        (f) => f.relativePath === `/CHANGELOG.${tagPrefix}.md`
+      );
+    } else {
+      files = allFiles.filter((f) => isChangelogPath(f.relativePath));
+    }
   }
   if (!files.length) {
     logger.trace('no changelog file found');

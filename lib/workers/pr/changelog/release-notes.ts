@@ -174,7 +174,7 @@ function isUrl(url: string): boolean {
 export async function getReleaseNotesMdFileInner(
   project: ChangeLogProject
 ): Promise<ChangeLogFile> | null {
-  const { apiBaseUrl, repository, sourceDirectory, type } = project;
+  const { apiBaseUrl, repository, sourceDirectory, type, tagPrefix } = project;
   try {
     switch (type) {
       case 'gitlab':
@@ -193,7 +193,8 @@ export async function getReleaseNotesMdFileInner(
         return await azure.getReleaseNotesMd(
           repository,
           apiBaseUrl,
-          sourceDirectory
+          sourceDirectory,
+          tagPrefix
         );
       default:
         logger.warn({ apiBaseUrl, repository, type }, 'Invalid project type');

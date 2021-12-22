@@ -130,7 +130,7 @@ export async function getReleases(
 
   let homepage = null;
   let latestStable: string = null;
-  const releases = catalogEntries.map(
+  let releases = catalogEntries.map(
     ({ version, published: releaseTimestamp, projectUrl, listed }) => {
       const release: Release = { version: removeBuildMeta(version) };
       if (releaseTimestamp) {
@@ -138,12 +138,15 @@ export async function getReleases(
       }
       if (semver.valid(version) && !semver.prerelease(version)) {
         if (!latestStable || semver.gt(version, latestStable)) {
-          latestStable = removeBuildMeta(version);
+          latestStable = version;
           homepage = projectUrl || homepage;
         }
       }
       if (listed === false) {
         release.isDeprecated = true;
+      }
+      if (projectUrl.match('.*path=/CHANGELOG.*md.*')) {
+        release.changelogUrl = projectUrl;
       }
       return release;
     }
@@ -156,7 +159,7 @@ export async function getReleases(
   // istanbul ignore if: only happens when no stable version exists
   if (latestStable === null) {
     const last = catalogEntries.pop();
-    latestStable = removeBuildMeta(last.version);
+    latestStable = last.version;
     homepage ??= last.projectUrl;
   }
 
@@ -179,6 +182,11 @@ export async function getReleases(
       const sourceUrl = nuspec.valueWithPath('metadata.repository@url');
       if (sourceUrl) {
         dep.sourceUrl = sourceUrl;
+      }
+      let branch: String = nuspec.valueWithPath('metadata.repository@branch');
+      if (branch && branch.includes('/')) {
+        const tagPrefix = branch.split('/').shift();
+        releases.map((r) => (r.tagPrefix = tagPrefix));
       }
     }
   } catch (err) {
