@@ -20,6 +20,7 @@ export interface ChangeLogRelease {
   date: string | Date;
   releaseNotes?: ChangeLogNotes;
   version: string;
+  tagPrefix?: string;
 }
 
 export interface ChangeLogProject {
@@ -30,6 +31,7 @@ export interface ChangeLogProject {
   repository: string;
   sourceUrl: string;
   sourceDirectory?: string;
+  tagPrefix?: string;
 }
 
 export enum ChangeLogError {

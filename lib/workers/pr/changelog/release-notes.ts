@@ -174,7 +174,7 @@ function isUrl(url: string): boolean {
 export async function getReleaseNotesMdFileInner(
   project: ChangeLogProject
 ): Promise<ChangeLogFile> | null {
-  const { apiBaseUrl, repository, sourceDirectory, type } = project;
+  const { apiBaseUrl, repository, sourceDirectory, type, tagPrefix } = project;
   try {
     switch (type) {
       case 'gitlab':
@@ -193,7 +193,8 @@ export async function getReleaseNotesMdFileInner(
         return await azure.getReleaseNotesMd(
           repository,
           apiBaseUrl,
-          sourceDirectory
+          sourceDirectory,
+          tagPrefix
         );
       default:
         logger.warn({ apiBaseUrl, repository, type }, 'Invalid project type');
@@ -218,9 +219,11 @@ export async function getReleaseNotesMdFileInner(
 export function getReleaseNotesMdFile(
   project: ChangeLogProject
 ): Promise<ChangeLogFile | null> {
-  const cacheKey = `getReleaseNotesMdFile@v2-${project.repository}${
-    project.sourceDirectory ? `-${project.sourceDirectory}` : ''
-  }-${project.apiBaseUrl}`;
+  const cacheKey = `getReleaseNotesMdFile@v2${project.repository}${
+    project.tagPrefix ? `-${project.tagPrefix}` : ''
+  }${project.sourceDirectory ? `-${project.sourceDirectory}` : ''}-${
+    project.apiBaseUrl
+  }`;
   const cachedResult = memCache.get<Promise<ChangeLogFile | null>>(cacheKey);
   // istanbul ignore if
   if (cachedResult !== undefined) {
@@ -353,7 +356,7 @@ export async function addReleaseNotes(
   }
   for (const v of input.versions) {
     let releaseNotes: ChangeLogNotes;
-    const cacheKey = getCacheKey(v.version);
+    const cacheKey = getCacheKey([v.tagPrefix, v.version].join(''));
     releaseNotes = await packageCache.get(cacheNamespace, cacheKey);
     // istanbul ignore else: no cache tests
     if (!releaseNotes) {
