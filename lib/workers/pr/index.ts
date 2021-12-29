@@ -271,7 +271,7 @@ export async function ensurePr(
   function getRepoNameWithSourceDirectory(
     upgrade: BranchUpgradeConfig
   ): string {
-    return `${upgrade.repoName}${
+    return `${upgrade.repoName}${upgrade.depName ? `:${upgrade.depName}` : ''}${
       upgrade.sourceDirectory ? `:${upgrade.sourceDirectory}` : ''
     }`;
   }
