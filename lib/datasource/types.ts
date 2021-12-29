@@ -53,6 +53,7 @@ export interface Release {
   registryUrl?: string;
   sourceUrl?: string;
   sourceDirectory?: string;
+  tagPrefix?: string; // only azure repo nugets
 }
 
 export interface ReleaseResult {

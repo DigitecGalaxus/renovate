@@ -23,6 +23,7 @@ export async function getChangeLogJSON({
   const baseUrl = `${protocol}//${host}/`;
   const repository = pathname.slice(1).replace('_git/', '');
   const apiBaseUrl = `${baseUrl}_apis/git/`;
+  const tagPrefix = releases.filter((r) => r.tagPrefix !== '')[0]?.tagPrefix;
 
   // This extra filter/sort should not be necessary, but better safe than sorry
   const validReleases = [...releases]
@@ -53,16 +54,17 @@ export async function getChangeLogJSON({
       );
       if (!release) {
         release = {
+          tagPrefix: tagPrefix,
           version: next.version,
           date: next.releaseTimestamp,
           // put empty changes so that existing templates won't break
           changes: [],
           compare: {},
         };
-        const prevHead = prev.version;
-        const nextHead = next.version;
-        if (prevHead && nextHead) {
-          release.compare.url = `${sourceUrl}/branchCompare?baseVersion=GT${prevHead}&targetVersion=GT${nextHead}`;
+        if (prev.tagPrefix) {
+          release.compare.url = `${sourceUrl}/branchCompare?baseVersion=GT${prev.tagPrefix}%2F${prev.version}&targetVersion=GT${next.tagPrefix}%2F${next.version}`;
+        } else {
+          release.compare.url = `${sourceUrl}/branchCompare?baseVersion=GT${prev.version}&targetVersion=GT${next.version}`;
         }
         const cacheMinutes = 1;
         await packageCache.set(
@@ -85,6 +87,7 @@ export async function getChangeLogJSON({
       sourceUrl,
       sourceDirectory,
       depName,
+      tagPrefix,
     },
     versions: changelogReleases,
   };
