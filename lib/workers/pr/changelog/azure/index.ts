@@ -60,7 +60,7 @@ export async function getReleaseNotesMd(
   if (!files.length) {
     if (tagPrefix) {
       files = allFiles.filter(
-        (f) => f.relativePath === `/CHANGELOG.${tagPrefix}.md`
+        (f) => f.relativePath === `CHANGELOG.${tagPrefix}.md`
       );
     } else {
       files = allFiles.filter((f) => isChangelogPath(f.relativePath));

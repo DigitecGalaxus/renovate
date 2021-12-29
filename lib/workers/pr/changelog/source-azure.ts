@@ -54,13 +54,18 @@ export async function getChangeLogJSON({
       );
       if (!release) {
         release = {
+          tagPrefix: tagPrefix,
           version: next.version,
           date: next.releaseTimestamp,
           // put empty changes so that existing templates won't break
           changes: [],
           compare: {},
         };
-        release.compare.url = `${sourceUrl}/branchCompare?baseVersion=GT${prev.tagPrefix}${prev.version}&targetVersion=GT${next.tagPrefix}${next.version}`;
+        if (prev.tagPrefix) {
+          release.compare.url = `${sourceUrl}/branchCompare?baseVersion=GT${prev.tagPrefix}%2F${prev.version}&targetVersion=GT${next.tagPrefix}%2F${next.version}`;
+        } else {
+          release.compare.url = `${sourceUrl}/branchCompare?baseVersion=GT${prev.version}&targetVersion=GT${next.version}`;
+        }
         const cacheMinutes = 1;
         await packageCache.set(
           cacheNamespace,

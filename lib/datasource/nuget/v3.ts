@@ -130,7 +130,7 @@ export async function getReleases(
 
   let homepage = null;
   let latestStable: string = null;
-  let releases = catalogEntries.map(
+  const releases = catalogEntries.map(
     ({ version, published: releaseTimestamp, projectUrl, listed }) => {
       const release: Release = { version: removeBuildMeta(version) };
       if (releaseTimestamp) {
@@ -183,8 +183,8 @@ export async function getReleases(
       if (sourceUrl) {
         dep.sourceUrl = sourceUrl;
       }
-      let branch: String = nuspec.valueWithPath('metadata.repository@branch');
-      if (branch && branch.includes('/')) {
+      const branch: string = nuspec.valueWithPath('metadata.repository@branch');
+      if (branch?.includes('/')) {
         const tagPrefix = branch.split('/').shift();
         releases.map((r) => (r.tagPrefix = tagPrefix));
       }
