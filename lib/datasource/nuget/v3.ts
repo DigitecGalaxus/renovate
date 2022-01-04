@@ -132,7 +132,7 @@ export async function getReleases(
       }
       if (semver.valid(version) && !semver.prerelease(version)) {
         if (!latestStable || semver.gt(version, latestStable)) {
-          latestStable = version;
+          latestStable = removeBuildMeta(version);
           homepage = projectUrl || homepage;
         }
       }
@@ -153,7 +153,7 @@ export async function getReleases(
   // istanbul ignore if: only happens when no stable version exists
   if (latestStable === null) {
     const last = catalogEntries.pop();
-    latestStable = last.version;
+    latestStable = removeBuildMeta(last.version);
     homepage ??= last.projectUrl;
   }
 
