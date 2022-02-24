@@ -23,5 +23,5 @@ steps:
       Dockerfile: 'Dockerfile'
       tags: |
         $(Build.BuildId)
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/dg-main'))
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/dg-main', 'refs/heads/feat/golang-support'))
     displayName: Push docker image
