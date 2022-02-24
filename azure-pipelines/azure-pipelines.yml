@@ -13,7 +13,6 @@ steps:
       Dockerfile: 'Dockerfile'
       tags: |
         $(Build.BuildId)
-        latest
     displayName: Build docker image
 
   - task: Docker@2
@@ -24,6 +23,5 @@ steps:
       Dockerfile: 'Dockerfile'
       tags: |
         $(Build.BuildId)
-        latest
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), in(variables['Build.SourceBranch'], 'refs/heads/main', 'refs/heads/dg-main'))
     displayName: Push docker image
