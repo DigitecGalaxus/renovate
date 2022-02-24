@@ -50,6 +50,9 @@ RUN install-tool dotnet 6.0.101
 # renovate: datasource=github-releases lookupName=helm/helm
 RUN install-tool helm v3.7.2
 
+# renovate: datasource=docker versioning=docker
+RUN install-tool golang 1.17.7
+
 COPY --from=tsbuild /usr/src/app/package.json package.json
 COPY --from=tsbuild /usr/src/app/dist dist
 COPY --from=tsbuild /usr/src/app/node_modules node_modules
