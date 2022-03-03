@@ -499,6 +499,18 @@ export async function updatePr({
   await ensureChangelogComment(prNo, changelog);
 }
 
+function truncateContent(str: string, n: number, useWordBoundary: boolean) {
+  if (str.length <= n) {
+    return str;
+  }
+  const subString = str.substring(0, n - 3);
+  return (
+    (useWordBoundary
+      ? subString.substring(0, subString.lastIndexOf(' '))
+      : subString) + '...'
+  );
+}
+
 export async function ensureComment({
   number,
   topic,
@@ -506,7 +518,7 @@ export async function ensureComment({
 }: EnsureCommentConfig): Promise<boolean> {
   logger.debug(`ensureComment(${number}, ${topic}, content)`);
   const header = topic ? `### ${topic}\n\n` : '';
-  const body = `${header}${sanitize(content)}`;
+  const body = truncateContent(`${header}${sanitize(content)}`, 150000, true);
   const azureApiGit = await azureApi.gitApi();
 
   const threads = await azureApiGit.getThreads(config.repoId, number);
