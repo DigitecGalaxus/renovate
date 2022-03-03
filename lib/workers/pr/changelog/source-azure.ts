@@ -4,7 +4,7 @@ import * as packageCache from '../../../util/cache/package';
 import * as allVersioning from '../../../versioning';
 import type { BranchUpgradeConfig } from '../../types';
 import { addReleaseNotes } from './release-notes';
-import { ChangeLogRelease, ChangeLogResult } from './types';
+import type { ChangeLogRelease, ChangeLogResult } from './types';
 
 const cacheNamespace = 'changelog-azure-release';
 
