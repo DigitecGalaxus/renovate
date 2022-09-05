@@ -965,6 +965,6 @@ async function ensureChangelogComment(
   return await ensureComment({
     number: pullRequestId,
     topic: 'Full Release Notes',
-    content: content,
+    content,
   });
 }
