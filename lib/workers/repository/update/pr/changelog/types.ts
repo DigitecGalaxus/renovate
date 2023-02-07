@@ -35,7 +35,10 @@ export interface ChangeLogProject {
   tagPrefix?: string;
 }
 
-export type ChangeLogError = 'MissingGithubToken' | 'MissingGitlabToken' | 'MissingAzureToken';
+export type ChangeLogError =
+  | 'MissingGithubToken'
+  | 'MissingGitlabToken'
+  | 'MissingAzureToken';
 
 export interface ChangeLogResult {
   hasReleaseNotes?: boolean;
