@@ -96,7 +96,9 @@ export async function getChangeLogJSON(
     }
   }
 
-  let res: ChangeLogResult = {
+  let res: ChangeLogResult | null;
+
+  res = {
     project: {
       apiBaseUrl,
       baseUrl,
