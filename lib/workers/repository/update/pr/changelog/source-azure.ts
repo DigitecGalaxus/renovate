@@ -16,7 +16,7 @@ export async function getChangeLogJSON(
   const currentVersion = config.currentVersion!;
   const newVersion = config.newVersion!;
   const sourceUrl = config.sourceUrl!;
-  const depName = config.depName!;
+  const packageName = config.packageName!;
   const sourceDirectory = config.sourceDirectory!;
 
   logger.trace('getChangeLogJSON for azure');
@@ -50,7 +50,7 @@ export async function getChangeLogJSON(
   }
 
   function getCacheKey(prev: string, next: string): string {
-    return `${slugifyUrl(sourceUrl)}:${depName}:${prev}:${next}`;
+    return `${slugifyUrl(sourceUrl)}:${packageName}:${prev}:${next}`;
   }
 
   const changelogReleases: ChangeLogRelease[] = [];
@@ -106,7 +106,7 @@ export async function getChangeLogJSON(
       repository,
       sourceUrl,
       sourceDirectory,
-      depName,
+      packageName,
       tagPrefix,
     },
     versions: changelogReleases,
