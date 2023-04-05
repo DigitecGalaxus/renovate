@@ -1,9 +1,9 @@
 # renovate: datasource=npm depName=renovate versioning=npm
-ARG RENOVATE_VERSION=34.158.0
+ARG RENOVATE_VERSION=35.32.2
 
 # Base image
 #============
-FROM ghcr.io/containerbase/buildpack:6.3.4@sha256:31dbe48cde0308c1adfdd2c5820522c15a863c9d49ebcd210f118addcffe1a01 AS base
+FROM ghcr.io/containerbase/base:7.6.0@sha256:aeb4e8e9246c66d31e471b4233790337e485b88f61915bb1d24a89597eb3d27d AS base
 
 LABEL name="renovate"
 LABEL org.opencontainers.image.source="https://github.com/digitecgalaxus/renovate" \
@@ -15,7 +15,7 @@ RUN git config --global user.email 'renovate@whitesourcesoftware.com'
 RUN git config --global user.name  'DG Renovate Bot'
 
 # renovate: datasource=node
-RUN install-tool node v18.14.0
+RUN install-tool node v18.15.0
 
 # renovate: datasource=npm versioning=npm
 RUN install-tool yarn 1.22.19
@@ -51,13 +51,13 @@ RUN set -ex; \
 FROM base as final
 
 # renovate: datasource=docker lookupName=mcr.microsoft.com/dotnet/sdk
-RUN install-tool dotnet 6.0.406
+RUN install-tool dotnet 7.0.202
 
 # renovate: datasource=github-releases lookupName=helm/helm
-RUN install-tool helm v3.11.1
+RUN install-tool helm v3.11.2
 
 # renovate: datasource=docker versioning=docker
-RUN install-tool golang 1.20.1
+RUN install-tool golang 1.20.3
 
 COPY --from=tsbuild /usr/src/app/package.json package.json
 COPY --from=tsbuild /usr/src/app/dist dist
