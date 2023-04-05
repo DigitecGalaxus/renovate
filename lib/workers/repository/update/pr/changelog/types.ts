@@ -25,7 +25,7 @@ export interface ChangeLogRelease {
 }
 
 export interface ChangeLogProject {
-  packageName?: string;
+  depName?: string;
   type: 'github' | 'gitlab' | 'azure';
   apiBaseUrl?: string;
   baseUrl: string;
