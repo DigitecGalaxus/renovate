@@ -1,5 +1,5 @@
 # renovate: datasource=npm depName=renovate versioning=npm
-ARG RENOVATE_VERSION=35.32.2
+ARG RENOVATE_VERSION=35.66.3
 
 # Base image
 #============
@@ -15,7 +15,7 @@ RUN git config --global user.email 'renovate@whitesourcesoftware.com'
 RUN git config --global user.name  'DG Renovate Bot'
 
 # renovate: datasource=node
-RUN install-tool node v18.15.0
+RUN install-tool node v18.16.0
 
 # renovate: datasource=npm versioning=npm
 RUN install-tool yarn 1.22.19
@@ -51,10 +51,10 @@ RUN set -ex; \
 FROM base as final
 
 # renovate: datasource=docker lookupName=mcr.microsoft.com/dotnet/sdk
-RUN install-tool dotnet 7.0.202
+RUN install-tool dotnet 7.0.203
 
 # renovate: datasource=github-releases lookupName=helm/helm
-RUN install-tool helm v3.11.2
+RUN install-tool helm v3.11.3
 
 # renovate: datasource=docker versioning=docker
 RUN install-tool golang 1.20.3
